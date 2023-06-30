@@ -3,7 +3,30 @@ const { requiresAuth } = require('express-openid-connect');
 const database = require('./database');
 const auth0Middleware = require('./auth/auth0');
 const helmet = require("helmet")
+const swaggerUI = require("swagger-ui-express")
+const swaggerJsDoc = require("swagger-jsdoc")
 const rateLimit = require("express-rate-limit") 
+
+const options = {
+	definition: {
+		openapi: "3.0.0",
+		info: {
+			title: "UrlSplicer",
+			version: "1.0.0",
+			description: "Url Shortner",
+		},
+		servers: [
+			{
+				url: "http://localhost:3000",
+			},
+		],
+	},
+	apis: ["./routes/*.js"],
+};
+
+const specs = swaggerJsDoc(options);
+
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -13,7 +36,7 @@ database.connectingToMongoDB();
 
 
 
-
+app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(specs));
 app.set('view engine', 'ejs');
 app.use(express.urlencoded({ extended: true }));
 
