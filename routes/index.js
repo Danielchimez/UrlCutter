@@ -4,13 +4,23 @@ const qrcode = require('qrcode');
 const validUrl = require('valid-url');
 
 
+/**
+ * @swagger
+ * /books:
+ *   post:
+ *     summary: Shorten Url
+ *     tags: [url]
+ *     requestBody:
+ *       required: true
+ *     responses:
+ *       200:
+ *         description: The url was successfully shortened
+ *       500:
+ *         description: Some server error
+ */
 
 
 
-
-// router.get('/', requiresAuth(), (req, res) => {
-//     res.render('index', { shortenedUrl: null });
-// });
 
 router.post('/shorten', (req, res) => {
   const { url } = req.body;
